@@ -1,0 +1,162 @@
+#include<iostream>
+#include"Ctrl_input"
+
+#define ROW 4
+#define COLUMN 5
+#define PATTEN_ROW 1
+#define PATTEN_COLUMN 2
+
+
+// class Matrix definition ----------------------------------------------------
+class Matrix
+{
+private:
+    static const int row ;
+    static const int column ;
+    int** obj ;
+
+public:
+    Matrix( void ) ; // allocate space for matrix
+    ~Matrix( void ) ;
+
+    void Matrix_create( void ) ; // read nums for each space from keyboard
+
+    bool get_Nums( int patten , int loc , int* target ) ; // get nums from 'locTH row/column(patten)' to 'target[]'
+    bool put_Nums( int patten , int loc , int* source ) ; // put nums in 'locTH row/column(patten)' from 'source[]'
+
+    void plus( Matrix &another , Matrix &target ) ; // plus another & target is answer
+    void minus( Matrix &another , Matrix &target ) ; // minus another & target is answer
+
+    void output( void ) ;
+} ;
+const int Matrix::row = ROW ;
+const int Matrix::column = COLUMN ;
+
+// Matrix functions -----------------------------------------------------------
+Matrix::Matrix( void )
+{
+    obj = new int*[row] ;
+    for( int i=0 ; i < row ; i++ )
+        obj[i] = new int[column] ;
+}
+
+Matrix::~Matrix( void )
+{
+    for( int i=0 ; i < row ; i++ )
+        delete[] obj[i] ;
+    delete[] obj ;
+    obj = NULL;
+}
+
+void Matrix::Matrix_create( void )  // Never believe user's input
+{
+    int* tmp = new int[COLUMN] ;
+    for( int i=0 , flag ; i < row ; i++ ) {
+        std::cout << "Please input " << COLUMN << " numbers for " << i+1 << "th row.\n" ;
+        if( my_getNums( COLUMN , tmp ) ) { // get size numbers successfully
+            for( int j=0 ; j < COLUMN ; j++ )
+                obj[i][j] = tmp[j] ;
+        }
+        else  i-- ;
+    }
+    delete[] tmp ;
+    tmp = NULL;
+}
+
+bool Matrix::get_Nums( int patten , int loc , int* target )
+{
+    if( patten == PATTEN_ROW )  // get nums of a row
+    {
+        if( loc < 1 || loc > row ) {
+            std::cout << "The input of 'loc' is false. Please try again./n" ;
+            return false ;
+        }
+        for( int i=0 ; i < column ; i++ )
+            target[i] = obj[loc-1][i] ;
+        return true ;
+    }
+    
+    else if( patten == PATTEN_COLUMN )  // get nums of a column
+    {
+        if( loc < 1 || loc > column ) {
+            std::cout << "The input of 'loc' is false. Please try again./n" ;
+            return false ;
+        }
+        for( int i=0 ; i < row ; i++ )
+            target[i] = obj[i][loc-1] ;
+        return true ;
+    }
+    
+    std::cout << "The input of 'patten' is false. Please try again./n" ;
+    return false ;
+}
+
+bool Matrix::put_Nums( int patten , int loc , int* source )
+{
+    if( patten == PATTEN_ROW )  // get nums of a row
+    {
+        if( loc < 1 || loc > column ) {
+            std::cout << "The input of 'loc' is false. Please try again./n" ;
+            return false ;
+        }
+        for( int i = 0 ; i < column ; i++ )
+            obj[loc-1][i] = source[i] ;
+        return true ;
+    }
+    
+    else if( patten == PATTEN_COLUMN )  // get nums of a column
+    {
+        if( loc < 1 || loc > column ) {
+            std::cout << "The input of 'loc' is false. Please try again./n" ;
+            return false ;
+        }
+        for( int i=0 ; i < row ; i++ )
+            obj[i][loc-1] = source[i] ;
+        return true ;
+    }
+    
+    std::cout << "The input of 'patten' is false. Please try again./n" ;
+    return false ;
+}
+
+void Matrix::plus( Matrix &another , Matrix &target )
+{
+    int* tmp1 = new int[COLUMN] ;
+    int* tmp2 = new int[COLUMN] ;
+    for( int k=1 ; k <= ROW ; k++ ) {
+        while( ! this->get_Nums( 1 , k , tmp1 ) ) ; // get nums of kTH row
+        while( ! another.get_Nums( 1 , k , tmp2 ) ) ; // get nums of kTH row
+        for( int i=0 ; i < COLUMN ; i++ )
+            tmp1[i] += tmp2[i] ; // plus
+        target.put_Nums( 1 , k , tmp1 ) ; // put nums of kTH row
+    }
+    delete[] tmp1 ;
+    delete[] tmp2 ;
+    tmp1 = tmp2 = NULL;
+}
+
+void Matrix::minus( Matrix &another , Matrix &target )
+{
+    int* tmp1 = new int[COLUMN] ;
+    int* tmp2 = new int[COLUMN] ;
+    for( int k=1 ; k <= ROW ; k++ ) {
+        while( ! this->get_Nums( 1 , k , tmp1 ) ) ;
+        while( ! another.get_Nums( 1 , k , tmp2 ) ) ;
+        for( int i=0 ; i < COLUMN ; i++ )
+            tmp1[i] -= tmp2[i] ;
+        target.put_Nums( 1 , k , tmp1 ) ; // put nums of kTH row
+    }
+    delete[] tmp1 ;
+    delete[] tmp2 ;
+    tmp1 = tmp2 = NULL;
+}
+
+void Matrix::output( void )
+{
+    for( int i=0 ; i < row ; i++ ) {
+        for( int j=0 ; j < column ; j++ )
+            std::cout << " " << obj[i][j] ;
+        std::cout << "\n" ;
+    }
+    std::cout << "\n" ;
+}

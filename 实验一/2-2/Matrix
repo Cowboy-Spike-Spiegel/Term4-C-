@@ -1,0 +1,133 @@
+#include<iostream>
+#include"Ctrl_input"
+
+// class Matrix definition ----------------------------------------------------
+class Matrix
+{
+private:
+    int row ;
+    int column ;
+    int** obj ;
+
+public:
+    Matrix( int row, int column ) ; // allocate space for matrix
+    ~Matrix( void ) ;
+    Matrix( Matrix& m );
+
+	Matrix operator=(const Matrix& m);
+    friend Matrix operator+(const Matrix& m1,const Matrix& m2);
+    friend Matrix operator-(const Matrix& m1,const Matrix& m2);
+
+    void Matrix_create( void ) ; // read nums for each space from keyboard
+    int** getObj() { return obj; } ;
+    void output( void ) ;
+} ;
+
+// Matrix functions -----------------------------------------------------------
+Matrix::Matrix( int row, int column )
+{
+    this->row = row;
+    this->column = column;
+    obj = new int*[row] ;
+    for( int i=0 ; i < row ; i++ )
+        obj[i] = new int[column] ;
+}
+
+Matrix::Matrix( Matrix& m )
+{
+    this->row = m.row;
+    this->column = m.column;
+    obj = new int*[row] ;
+    for( int i=0 ; i < row ; i++ ) {
+        obj[i] = new int[column] ;
+        for(int j=0; j < column; j++)
+            obj[i][j] = m.obj[i][j];
+    }
+}
+
+Matrix::~Matrix( void )
+{
+    for( int i=0 ; i < row ; i++ )
+        delete[] obj[i] ;
+    delete[] obj ;
+    obj = NULL;
+}
+
+// __________________________________________________________________________________
+Matrix Matrix::operator=( const Matrix &m )
+{
+    // 检查自应用
+    if(this != &m) {
+        if (this != NULL)
+		{
+			for (int i = 0; i < row; i++)
+				delete[] this->obj[i];
+			delete[] this->obj;
+		}
+
+        this->row = m.row;
+        this->column = m.column;
+        obj = new int*[row] ;
+        for( int i=0 ; i < row ; i++ ) {
+            obj[i] = new int[column] ;
+            for(int j=0; j < column; j++)
+                obj[i][j] = m.obj[i][j];
+        }
+    }
+    
+    return *this;
+}
+Matrix operator+(const Matrix& m1, const Matrix& m2)
+{
+    if (m1.row != m2.row || m1.column != m2.column)
+	{
+		std::cout << "Error:两个矩阵行列数不相等\n" ;
+		system("pause");
+		exit(0);
+	}
+    Matrix M(m1.row, m1.column);	
+	for(int i=0; i < M.row; i++)
+        for(int j=0; j < M.column; j++)
+            M.obj[i][j] = m1.obj[i][j] + m2.obj[i][j];
+	return M;
+}
+Matrix operator-(const Matrix& m1, const Matrix& m2)
+{
+    if (m1.row != m2.row || m1.column != m2.column)
+	{
+		std::cout << "Error:两个矩阵行列数不相等\n" ;
+		system("pause");
+		exit(0);
+	}
+	Matrix M(m1.row, m1.column);	
+	for(int i=0; i < M.row; i++)
+        for(int j=0; j < M.column; j++)
+            M.obj[i][j] = m1.obj[i][j] - m2.obj[i][j];
+	return M;
+}
+
+// __________________________________________________________________________________
+void Matrix::Matrix_create( void )  // Never believe user's input
+{
+    int* tmp = new int[this->column] ;
+    for( int i=0 , flag ; i < row ; i++ ) {
+        std::cout << "Please input " << this->column << " numbers for " << i+1 << "th row.\n" ;
+        if( my_getNums( this->column , tmp ) ) { // get size numbers successfully
+            for( int j=0 ; j < this->column ; j++ )
+                obj[i][j] = tmp[j] ;
+        }
+        else  i-- ;
+    }
+    delete[] tmp ;
+    tmp = NULL;
+}
+
+void Matrix::output( void )
+{
+    for( int i=0 ; i < row ; i++ ) {
+        for( int j=0 ; j < column ; j++ )
+            std::cout << " " << obj[i][j] ;
+        std::cout << "\n" ;
+    }
+    std::cout << "\n" ;
+}

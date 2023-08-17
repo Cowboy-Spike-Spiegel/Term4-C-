@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow_Administrator</class>
+ <widget class="QMainWindow" name="MainWindow_Administrator">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>900</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1200</width>
+      <height>876</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="page_findDelivery">
+     <widget class="QComboBox" name="comboBox_deliverySelect">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>740</y>
+        <width>251</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>发送方</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>接收方</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>时间</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>单号</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_deliveryInput">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>740</y>
+        <width>191</width>
+        <height>41</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_findDelivery">
+      <property name="geometry">
+       <rect>
+        <x>960</x>
+        <y>740</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>查询</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textEdit_findDelivery">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>100</y>
+        <width>1000</width>
+        <height>600</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_findUser">
+     <widget class="QTextEdit" name="textEdit_findUser">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>100</y>
+        <width>1000</width>
+        <height>600</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_findUser">
+      <property name="geometry">
+       <rect>
+        <x>760</x>
+        <y>770</y>
+        <width>171</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_findUser">
+      <property name="geometry">
+       <rect>
+        <x>960</x>
+        <y>770</y>
+        <width>141</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>查询</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_show">
+     <widget class="QLabel" name="label_name">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>180</y>
+        <width>200</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_account">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>90</y>
+        <width>200</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_tel">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>280</y>
+        <width>200</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_balance">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>370</y>
+        <width>200</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_service">
+    <property name="title">
+     <string>服务</string>
+    </property>
+    <addaction name="action_findDelivery"/>
+    <addaction name="action_findUser"/>
+   </widget>
+   <widget class="QMenu" name="menu_information">
+    <property name="title">
+     <string>个人信息</string>
+    </property>
+    <addaction name="action_show"/>
+   </widget>
+   <addaction name="menu_service"/>
+   <addaction name="menu_information"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_findDelivery">
+   <property name="text">
+    <string>查询快递</string>
+   </property>
+  </action>
+  <action name="action_show">
+   <property name="text">
+    <string>展示</string>
+   </property>
+  </action>
+  <action name="action_update">
+   <property name="text">
+    <string>修改</string>
+   </property>
+  </action>
+  <action name="action_findUser">
+   <property name="text">
+    <string>查询用户</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

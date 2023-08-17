@@ -1,0 +1,85 @@
+#include<iostream>
+#include<math.h>
+#include<Windows.h>
+
+#define DISJOINT 0
+#define INTERSECT 1
+#define CROSSING 2
+#define INIT 4
+
+enum State{ disjoint , intersect , crossing , init } ;
+
+
+// class Point ----------------------------------------------------------------
+class Point
+{
+private:
+    double abscissa ;
+    double ordinate ;
+
+protected:
+    std::string name ;
+
+    double distance( Point &another ) ;
+
+public:
+    Point( std::string name , double abscissa , double ordinate ) ;
+    virtual ~Point( void ) ;
+    double abs( void ) { return abscissa ; } ;
+    double ord( void ) { return ordinate ; } ;
+} ;
+// Point functions --------------------
+Point::Point( std::string name , double abscissa=0 , double ordinate=0 )
+{
+    this->name = name ;
+    this->abscissa = abscissa ;
+    this->ordinate = ordinate ;
+    std::cout << "Point " << this->name << " has been constructed!\n" ;
+    system("pause") ;
+}
+Point::~Point( void )
+{
+    std::cout << "Point " << this->name << " has been destructed!\n" ;
+    system("pause") ;
+}
+double Point::distance( Point &another )
+{
+    return pow( pow( this->abs()-another.abs() , 2 ) + pow( this->ord()-another.ord() , 2 ) , 1.0/2 ) ;
+}
+
+// class Circle ---------------------------------------------------------------
+class Circle : public Point
+{
+private:
+    double radius ;
+
+public:
+    Circle( std::string name , double radius , double abscissa , double ordinate ) ;
+    virtual ~Circle( void ) ;
+    State relation( Circle &another ) ;
+} ;
+Circle::Circle( std::string name , double radius , double abscissa=0 , double ordinate=0 ) : Point( name , abscissa , ordinate )
+{
+    this->radius=radius ;
+    std::cout << "Circle " << this->name << " has been constructed!\n" ;
+    system("pause") ;
+}
+Circle::~Circle( void )
+{
+    std::cout << "Circle " << this->name << " has been destructed!\n" ;
+    system("pause") ;
+}
+State Circle::relation( Circle &another )
+{
+    double dis = this->distance( another ) ;
+    double sum = this->radius+another.radius ;
+
+    if( dis+another.radius < this->radius || dis+this->radius < another.radius )
+        return init ;
+    else if( dis > sum )
+        return disjoint ;
+    else if( dis == sum )
+        return intersect ;
+    else
+        return crossing ;
+}

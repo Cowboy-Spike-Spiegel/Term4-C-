@@ -1,0 +1,83 @@
+#include<iostream>
+#include<string>
+#include<Windows.h>
+
+
+// class Point ************************************************************************************
+class Point
+{
+private:
+    int abscissa ;
+    int ordinate ;
+
+public:
+    Point( std::string name , int abscissa , int ordinate ) ;
+    virtual ~Point( void ) ;
+    Point( const Point &point ) ; // copy with ouput for analyzing our program
+    void showPosition( void ) ;
+
+    Point & operator++() ; // prefix
+    const Point operator++(int) ; // postfix
+    Point & operator--() ; // prefix
+    const Point operator--(int) ; // postfix
+
+    // transfer data to string for ostream
+    friend std::ostream &operator<<( std::ostream &os , const Point &point ) ;
+} ;
+
+// Point basic functions ******************************************************
+Point::Point( std::string name , int abscissa=0 , int ordinate=0 )
+{
+    this->abscissa = abscissa ;
+    this->ordinate = ordinate ;
+    std::cout << "Point has been constructed!\n" ;
+}
+Point::~Point( void )
+{
+    std::cout << "Point has been destructed!\n" ;
+}
+Point::Point( const Point &point )
+{
+    abscissa = point.abscissa ;
+    ordinate = point.ordinate ;
+    std::cout << " (Attention! Point has been copyed) " ;
+}
+void Point::showPosition( void )
+{
+    std::cout << "Current position is ( " << abscissa << " , " << ordinate << " ).\n" ;
+}
+
+// Point operator functions ***************************************************
+Point & Point::operator++()
+{
+    abscissa++ ;
+    ordinate++ ;
+    return *this ;
+}
+const Point Point::operator++(int)
+{
+    const Point tmp(*this) ; // copy to tmp
+    ++abscissa ;
+    ++ordinate ;
+    return tmp ;
+}
+Point & Point::operator--()
+{
+    abscissa-- ;
+    ordinate-- ;
+    return *this ;
+}
+const Point Point::operator--(int)
+{
+    const Point tmp(*this) ; // copy to tmp
+    --abscissa ;
+    --ordinate ;
+    return tmp ;
+}
+
+// Point ostream function *****************************************************
+std::ostream  &operator<< ( std::ostream &os , const Point &point )
+{
+    os << "( " << std::to_string(point.abscissa) << " , " << std::to_string(point.ordinate) << " )" ;
+    return os ;
+}

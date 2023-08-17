@@ -1,0 +1,23 @@
+#ifndef _CTRL_OUTPUT
+#define _CTRL_OUTPUT
+
+// ----------------------------------------------------------------------------
+#include<iostream>
+#include<string>
+#include<Windows.h>
+
+// declaration
+void my_putStr( std::string string ) ;
+
+// definition
+void my_putStr( std::string string )
+{
+    for( int i=0 ; i < string.length() ; i++ ) {
+        std::cout << string[i] ;
+        Sleep( 40 ) ;
+    }
+    Sleep(300) ;
+}
+
+// ----------------------------------------------------------------------------
+#endif

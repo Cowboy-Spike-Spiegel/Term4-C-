@@ -1,0 +1,205 @@
+#include<iostream>
+#include<string>
+#include<windows.h>
+#include"Ctrl_input"
+
+#define PI 3.141592
+
+enum State { hollow , solid } ; // 空心的/实心的
+std::string stateString[2] = { "hollow" , "solid" } ;
+
+
+// class Shape ************************************************************************************
+class MyShape
+{
+private:
+    State shapeState ;
+
+public:
+    MyShape( void ) ;
+    virtual ~MyShape( void ) ;
+    virtual void create( void ) ; // input data to create
+    virtual void showArea( void ) ;
+} ;
+
+// class myShape functions --------------
+MyShape::MyShape( void )
+{
+    std::cout << "\nA Shape has been constructed.\n" ;
+    system("pause") ;
+}
+MyShape::~MyShape( void )
+{
+    std::cout << "\nA Shape has been destructed.\n" ;
+    system("pause") ;
+}
+void MyShape::create( void )
+{
+    int tmp ;
+    while(1) {
+        std::cout << "\nPlease decide this is hollow or solid? ( 0 for hollow, 1 for solid )\n" ;
+        while( !my_getNums( 1 , &tmp ) ) ;
+        
+        if( tmp == 0 || tmp == 1 )  break ;
+        std::cout << "Nor 0 or 1, please try again.\n" ;
+    }
+    shapeState = (State)tmp ;
+    
+    std::cout << "A shape has been created, but we only konw it's " << stateString[shapeState] << ".\n" ;
+    system("pause") ;
+}
+void MyShape::showArea( void )
+{
+    std::cout << "\nArea cannot be calculated! Just a shape!\n" ;
+}
+
+
+// class Rectangle ********************************************************************************
+class MyRectangle : public MyShape
+{
+private:
+    static const std::string discription ;
+    double length ;
+    double width ;
+    double area ;
+
+protected:
+
+public:
+    MyRectangle( void ) ;
+    virtual ~MyRectangle( void ) ;
+    virtual void create( void ) ; // input data to create
+    virtual void showArea( void ) ;
+} ;
+const std::string MyRectangle::discription = "rectangle" ;
+
+// class Rectangle functions ----------
+MyRectangle::MyRectangle( void )
+{
+    std::cout << "\nA rectangle has been constructed.\n" ;
+    system("pause") ;
+}
+MyRectangle::~MyRectangle( void )
+{
+    std::cout << "\nA rectangle has been destructed.\n" ;
+    system("pause") ;
+}
+void MyRectangle::create( void )
+{
+    double* tmp = new double[2] ;
+    while( 1 ) {
+        std::cout << "\nPlease input this rectangle's length and width.\n" ;
+        while( !my_getNums( 2 , tmp ) ) ;
+        
+        if( tmp[0] > 0 && tmp[1] > 0 )  break ;
+        std::cout << "Should be positive! Please try again.\n" ;
+    }
+    this->length = tmp[0] ;
+    this->width = tmp[1] ;
+
+    std::cout << "A rectangle has been created.\n" ;
+    system("pause") ;
+}
+void MyRectangle::showArea( void )  // ignore overflow! But that's not a good thing
+{
+    area = length*width ;
+    std::cout << "Area is " << area << ".\n" ;
+}
+
+
+// class Circle ***********************************************************************************
+class MyCircle : public MyShape
+{
+private:
+    static const std::string discription ;
+    double radius ;
+    double area ;
+
+public:
+    MyCircle( void ) ;
+    virtual ~MyCircle( void ) ;
+    virtual void create( void ) ; // input data to create
+    virtual void showArea( void ) ;
+} ;
+const std::string MyCircle::discription = "circle" ;
+
+// class Circle functions ----------
+MyCircle::MyCircle( void )
+{
+    std::cout << "\nA circle has been constructed.\n" ;
+    system("pause") ;
+}
+MyCircle::~MyCircle( void )
+{
+    std::cout << "\nA circle has been destructed.\n" ;
+    system("pause") ;
+}
+void MyCircle::create( void )
+{
+    double tmp ;
+    while( 1 ) {
+        std::cout << "\nPlease input this circle's radius.\n" ;
+        while( !my_getNums( 1 , &tmp ) ) ;
+        
+        if( tmp > 0 )  break ;
+        std::cout << "Should be positive! Please try again.\n" ;
+    }
+    this->radius = tmp ;
+
+    std::cout << "A circle has been created.\n" ;
+    system("pause") ;
+}
+void MyCircle::showArea( void )  // ignore overflow! But that's not a good thing
+{
+    area = radius*radius*PI ;
+    std::cout << "Area is " << area << ".\n" ;
+}
+
+
+// class Square ***********************************************************************************
+class MySquare : public MyRectangle
+{
+private:
+    static const std::string discription ;
+    double edge ;
+    double area ;
+
+public:
+    MySquare( void ) ;
+    virtual ~MySquare(  void ) ;
+    virtual void create( void ) ; // input data to create
+    virtual void showArea( void ) ;
+} ;
+const std::string MySquare::discription = "square" ;
+
+// class Square functions
+MySquare::MySquare( void )
+{
+    std::cout << "\nA square has been constructed.\n" ;
+    system("pause") ;
+}
+MySquare::~MySquare( void )
+{
+    std::cout << "\nA square has been destructed.\n" ;
+    system("pause") ;
+}
+void MySquare::create( void )
+{
+    double tmp ;
+    while( 1 ) {
+        std::cout << "\nPlease input this square's edge.\n" ;
+        while( !my_getNums( 1 , &tmp ) ) ;
+        
+        if( tmp > 0 )  break ;
+        std::cout << "Should be positive! Please try again.\n" ;
+    }
+    this->edge = tmp ;
+
+    std::cout << "A square has been created.\n" ;
+    system("pause") ;
+}
+void MySquare::showArea( void )  // ignore overflow! But that's not a good thing
+{
+    area = edge*edge ;
+    std::cout << "Area is " << area << ".\n" ;
+}
